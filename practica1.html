@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Operaciones Básicas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .calculator {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 300px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        .input-field {
+            margin: 15px 0;
+            width: 100%;
+        }
+        .input-field label {
+            font-size: 16px;
+            color: #555;
+        }
+        .input-field input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            outline: none;
+        }
+        .input-field input:focus {
+            border-color: #4CAF50;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            text-align: center;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        .button-container {
+            text-align: center;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        button:disabled {
+            background-color: #ddd;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="calculator">
+        <h2>Calculadora Básica</h2>
+        
+        <div class="input-field">
+            <label for="num1">Número 1:</label>
+            <input type="number" id="num1" placeholder="Ingresa un número" />
+        </div>
+        
+        <div class="input-field">
+            <label for="num2">Número 2:</label>
+            <input type="number" id="num2" placeholder="Ingresa otro número" />
+        </div>
+        
+        <div class="button-container">
+            <button onclick="calculate('sum')" id="btnSum">Sumar</button>
+            <button onclick="calculate('subtract')" id="btnSubtract">Restar</button>
+            <button onclick="calculate('multiply')" id="btnMultiply">Multiplicar</button>
+            <button onclick="calculate('divide')" id="btnDivide">Dividir</button>
+        </div>
+        
+        <div class="input-field">
+            <label for="expression">Expresión Completa:</label>
+            <input type="text" id="expression" placeholder="Ejemplo: 3+5*2-(8/4)" />
+        </div>
+
+        <div class="button-container">
+            <button onclick="evaluateExpression()">Evaluar Expresión</button>
+        </div>
+        
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function calculate(operation) {
+            // Obtener los valores de los inputs
+            let num1 = parseFloat(document.getElementById('num1').value);
+            let num2 = parseFloat(document.getElementById('num2').value);
+            let result = '';
+            
+            if (isNaN(num1) || isNaN(num2)) {
+                result = 'Por favor ingresa ambos números.';
+            } else {
+                switch (operation) {
+                    case 'sum':
+                        result = `Resultado de la suma: ${num1 + num2}`;
+                        break;
+                    case 'subtract':
+                        result = `Resultado de la resta: ${num1 - num2}`;
+                        break;
+                    case 'multiply':
+                        result = `Resultado de la multiplicación: ${num1 * num2}`;
+                        break;
+                    case 'divide':
+                        if (num2 === 0) {
+                            result = 'No se puede dividir entre cero.';
+                        } else {
+                            result = `Resultado de la división: ${num1 / num2}`;
+                        }
+                        break;
+                    default:
+                        result = 'Operación no reconocida.';
+                        break;
+                }
+            }
+            
+            // Mostrar el resultado
+            document.getElementById('result').textContent = result;
+        }
+
+        function evaluateExpression() {
+            let expression = document.getElementById('expression').value;
+
+            try {
+                // Usamos eval() para evaluar la expresión matemática
+                let result = eval(expression);
+
+                if (isNaN(result)) {
+                    throw new Error('La expresión no es válida.');
+                }
+
+                document.getElementById('result').textContent = `Resultado de la expresión: ${result}`;
+            } catch (error) {
+                document.getElementById('result').textContent = 'Error: Expresión no válida.';
+            }
+        }
+    </script>
+
+</body>
+</html>
